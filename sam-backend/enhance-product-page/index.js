@@ -84,23 +84,32 @@ const getS3File = async  (k) => {
 */
 const returnSpecialProductContent = async (features) => {
   
-  let spc = `
-      <div class="jumbotron">
-        <h2>Features</h2>
-        <ul class='list-group mt-5'>
-  `;
+  let spc = "";
   
-  for (let i = 0; i < features.features.length; i++) {
+  if (features === undefined || features === null) {
     
-    spc += `
-      <li class='list-group-item'><strong>${features.features[i]}</strong></li>
+    return spc;  
+    
+  } else {
+    
+    
+    spc = `
+        <div class="jumbotron">
+          <h2>Features</h2>
+          <ul class='list-group mt-5'>
     `;
     
-  }
-  
-  spc += "</ul>\n</div>\n";
-  
-  return spc;
+    for (let i = 0; i < features.features.length; i++) {
+      
+      spc += `
+        <li class='list-group-item'><strong>${features.features[i]}</strong></li>
+      `;
+      
+    }
+    
+    spc += "</ul>\n</div>\n";
+    
+    return spc;
   
 };
 

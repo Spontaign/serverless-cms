@@ -48,6 +48,7 @@
 
     <div class="form-group">
         <label>Page Body</label>
+        <div v-if="editorImageUploading" class="alert alert-warning align-middle"><div class="spinner-border text-success"></div> Image uploading... </div>
         <vue-editor useCustomImageHandler @image-added="handleImageAdded" v-model="entry.pageBody" @blur="pendingChanges"></vue-editor>           
         <button @click="editRawBody" type="button" class="btn btn-sm btn-warning mt-2" data-toggle="modal" data-target="#editRawBodyModal">
           Edit HTML

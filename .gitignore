@@ -1,5 +1,8 @@
 
 # admin-module
+
+amplify-vue-admin-module/src/aws-exports.js
+
 amplify-vue-admin-module/node_modules
 amplify-vue-admin-module/dist
 amplify-vue-admin-module/amplify
@@ -11,7 +14,7 @@ amplify-vue-admin-module/amplify
 amplify-vue-admin-module/build/
 amplify-vue-admin-module/dist/
 amplify-vue-admin-module/node_modules/
-amplify-vue-admin-module/aws-exports.js
+amplify-vue-admin-module/src/aws-exports.js
 amplify-vue-admin-module/awsconfiguration.json
 amplify-vue-admin-module/amplifyconfiguration.json
 amplify-vue-admin-module/amplify-build-config.json

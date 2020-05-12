@@ -1,0 +1,172 @@
+{
+    "ENTER-DYNAMODB-TABLE-NAME-HERE": [
+        {
+            "PutRequest": {
+                "Item": {
+                    "eid": {"S":"configuration"},
+                    "ctype": {"S":"configuration"},
+                    "pageLayouts": {
+                        "L": [
+                            {
+                                "S": "Main"
+                            },
+                            {
+                                "S": "Product"
+                            }
+                        ]
+                    },
+                    "pageSnippets": {
+                        "L": [
+                            {
+                                "S": "Header"
+                            },
+                            {
+                                "S": "Footer"
+                            },
+                            {
+                                "S": "Navigation"
+                            }                            
+                        ]
+                    },
+                    "websiteSections": {
+                        "L": [
+                            {
+                                "S": "None"
+                            },
+                            {
+                                "S": "About Us"
+                            },
+                            {
+                                "S": "Catalog"
+                            }                            
+                        ]
+                    },                    
+                    "stageWebBase": {"S":"https://stagingURL.com/"},
+                    "prodWebBase": {"S":"https://productionURL.com/"}
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "eid": {"S":"images"},
+                    "ctype": {"S":"images"},
+                    "images": {
+                        "L": []
+                    },                        
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "eid": {"S":"f6R92f8DnrdtG8jA"},
+                    "ctype": {"S":"page"},
+                    "pageBody": {"S":"<hr />\n<strong> THIS IS THE BODY</strong>\n<hr />"},
+                    "pageLayout": {"S":"Main"},
+                    "seoTitle": {"S":"Page One SEO Title"},
+                    "showWebsite": {"BOOL":true},
+                    "title": {"S":"Test Page One"},
+                    "websiteKey": {"S":"test-page-one"},
+                    "websiteSection": {"S":"About Us"}
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "eid": {"S":"YxVmK3k672rz"},
+                    "ctype": {"S":"product"},
+                    "pageBody": {"S":"<hr />\n<strong> Widget One</strong>\n<hr />"},
+                    "pageLayout": {"S":"Main"},
+                    "seoTitle": {"S":"Widget One"},
+                    "showWebsite": {"BOOL":true},
+                    "title": {"S":"Widget One"},
+                    "websiteKey": {"S":"widget-one"},
+                    "websiteSection": {"S":"Catalog"}
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "eid": {"S":"7g798SwtWc4Kz7zt"},
+                    "ctype": {"S":"layout"},
+                    "title": {"S":"Main"},  
+                    "pageSnippets": {
+                        "L": [
+                            {
+                                "S": "Header"
+                            },
+                            {
+                                "S": "Footer"
+                            }
+                        ]
+                    },                                      
+                    "layoutBody": {"S":"<!DOCTYPE html>\n<html lang=en>\n\t\n\t<head>\n\t\t<meta charset=utf-8>\n\n\t\t<title><!-- ===> r:title <=== --></title>\n\n\t\t<link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css\" />\n\n\t</head>\n\t\n\t<body>\n\t\n\t\t<!-- ===> r:Header <=== -->\n\n\t\t<!-- ===> r:pageBody <=== -->\n\n\t\t<!-- ===> r:Footer <=== -->\n\n\t</body>\n</html>"}
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "eid": {"S":"yU898SeW1z7fg"},
+                    "ctype": {"S":"layout"},
+                    "title": {"S":"Product"},  
+                    "pageSnippets": {
+                        "L": [
+                            {
+                                "S": "Header"
+                            },
+                            {
+                                "S": "Footer"
+                            }
+                        ]
+                    },                                      
+                    "layoutBody": {"S":"<!DOCTYPE html>\n<html lang=en>\n\t\n\t<head>\n\t\t<meta charset=utf-8>\n\n\t\t<title><!-- ===> r:title <=== --></title>\n\t\n\t\t<link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css\" />\n\n\t</head>\n\t\n\t<body>\n\t\n\t\t<div class=\"container\">\n\n\t\t<!-- ===> r:Header <=== -->\n\n\t\t<!-- ===> r:pageBody <=== -->\n\n\t\t<!-- ===> r:specialProductContent <=== -->\n\n\t\t<!-- ===> r:Footer <=== -->\n\n\t\t</div>\n\n\t</body>\n</html>"}
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "eid": {"S":"zhD5L4UVsQaVAbFP"},
+                    "ctype": {"S":"snippet"},
+                    "title": {"S":"Header"},                    
+                    "snippetBody": {"S":"<h1>This is the HEADER</h1>"}
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "eid": {"S":"UL5nVXhyvPn5KfeB"},
+                    "ctype": {"S":"snippet"},
+                    "title": {"S":"Navigation"},                    
+                    "snippetBody": {"S":"<h3>This is the Navigation</h3>"}
+                }
+            }
+        },        
+        {
+            "PutRequest": {
+                "Item": {
+                    "eid": {"S":"5wGMpQgGHpQMZkfG"},
+                    "ctype": {"S":"snippet"},
+                    "title": {"S":"Footer"},                    
+                    "snippetBody": {"S":"<h5>This is the footer</h5>"}
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "eid": {"S":"7u4uewp9YePdv3Nd"},
+                    "ctype": {"S":"asset"},
+                    "title": {"S":"Sample Script"},  
+                    "websiteKey": {"S":"js/samplescript.js"},                  
+                    "assetBody": {"S":"function() {\nconsole.log(\"Sample function!\");\n}"}
+                }
+            }
+        }
+    ]
+}

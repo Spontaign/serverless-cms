@@ -1,0 +1,450 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  A Content Management System built using AWS Serverless technologies.
+  
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+
+  WebsiteDynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:          
+        ProvisionedThroughput:
+            WriteCapacityUnits: 2
+            ReadCapacityUnits: 2
+        AttributeDefinitions:
+            - AttributeName: eid
+              AttributeType: S
+            - AttributeName: ctype
+              AttributeType: S
+        KeySchema:
+            - AttributeName: eid
+              KeyType: HASH
+            - AttributeName: ctype
+              KeyType: RANGE
+
+  StagingBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: PublicRead
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: error.html
+
+  BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      PolicyDocument:
+        Id: StagingBucketPolicy
+        Version: 2012-10-17
+        Statement:
+          - Sid: PublicReadForGetBucketObjects
+            Effect: Allow
+            Principal: '*'
+            Action: 's3:GetObject'
+            Resource: !Join 
+              - ''
+              - - 'arn:aws:s3:::'
+                - !Ref StagingBucket
+                - /*
+      Bucket: !Ref StagingBucket
+
+  CloudFrontOriginAccessIdentity:
+    Type: 'AWS::CloudFront::CloudFrontOriginAccessIdentity'
+    Properties:
+      CloudFrontOriginAccessIdentityConfig:
+        Comment: 'Serverless website OA'
+
+  CloudFrontDistribution:
+    Type: "AWS::CloudFront::Distribution"
+    Properties:
+      DistributionConfig:
+        Comment: "Cloudfront distribution for serverless website"
+        DefaultRootObject: "index.html"
+        Enabled: true
+        HttpVersion: http2
+        PriceClass: PriceClass_100
+        # List of origins that Cloudfront will connect to
+        Origins:
+          - Id: s3-website
+            DomainName: !GetAtt ProductionBucket.DomainName
+            S3OriginConfig:
+              # Restricting Bucket access through an origin access identity
+              OriginAccessIdentity: 
+                Fn::Sub: 'origin-access-identity/cloudfront/${CloudFrontOriginAccessIdentity}'
+        # To connect the CDN to the origins you need to specify behaviours
+        DefaultCacheBehavior:
+          # Compress resources automatically ( gzip )
+          Compress: 'true'
+          AllowedMethods:
+            - GET
+            - HEAD
+            - OPTIONS
+          ForwardedValues:
+            QueryString: false
+          TargetOriginId: s3-website
+          ViewerProtocolPolicy : redirect-to-https
+
+  ProductionBucket:
+    Type: AWS::S3::Bucket
+
+  ProductionBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref ProductionBucket
+      PolicyDocument:
+      # Restricting access to cloudfront only.
+        Statement:
+          -
+            Effect: Allow
+            Action: 's3:GetObject'
+            Resource:
+              - !Sub "arn:aws:s3:::${ProductionBucket}/*"
+            Principal:
+              AWS: !Sub "arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity ${CloudFrontOriginAccessIdentity}"    
+
+  UploadBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      CorsConfiguration:
+        CorsRules:
+          -
+            AllowedOrigins: 
+              - "*"
+            AllowedMethods: 
+              - POST
+              - GET
+              - PUT
+              - DELETE
+              - HEAD
+            AllowedHeaders: 
+              - "*"    
+
+  LambdaRole:
+    Type: AWS::IAM::Role
+    Properties: 
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+              - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'      
+      Description: >-
+        Role given to lambdas created in this application.
+      ManagedPolicyArns: ['arn:aws:iam::aws:policy/CloudFrontFullAccess','arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole','arn:aws:iam::aws:policy/AmazonS3FullAccess']
+      Policies:
+        - PolicyName: DynamoDBAccess
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: 'dynamodb:*'
+                Resource: !GetAtt WebsiteDynamoDBTable.Arn
+
+  GetDynamoDBObject:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs12.x
+      CodeUri: get-dynamodb-object/
+      Description: >-
+        Returns all objects from DynamoDB matching an id (DynamoDB Primary Key).
+      MemorySize: 128
+      Timeout: 3
+      Role: !GetAtt LambdaRole.Arn
+      Environment:
+        Variables:
+          REGION: us-west-2
+          TABLE_NAME: !Select [1, !Split ['/', !GetAtt WebsiteDynamoDBTable.Arn]]
+
+  GetDynamoDBObjects:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs12.x
+      CodeUri: get-dynamodb-objects/
+      Description: >-
+        Returns all objects from DynamoDB matching a ctype (DynamoDB Sort Key).
+        This returns objects of a certain type (like all static pages, templates, layouts, etc)
+      MemorySize: 128
+      Timeout: 3
+      Role: !GetAtt LambdaRole.Arn
+      Environment:
+        Variables:
+          REGION: us-west-2
+          TABLE_NAME: !Select [1, !Split ['/', !GetAtt WebsiteDynamoDBTable.Arn]]
+
+  PutDynamoDBObject:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs12.x
+      CodeUri: put-dynamodb-object/
+      Description: >-
+        Puts a JSON object into DynamoDB.
+      MemorySize: 128
+      Timeout: 3
+      Role: !GetAtt LambdaRole.Arn
+      Environment:
+        Variables:
+          REGION: us-west-2
+          TABLE_NAME: !Select [1, !Split ['/', !GetAtt WebsiteDynamoDBTable.Arn]]
+
+  BuildPage:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs12.x
+      CodeUri: build-page/
+      Description: >-
+        Builds a static page but pulling page object, then pulling needed templates and 
+        to generate HTML and then write the page to S3
+      MemorySize: 128
+      Timeout: 8
+      Role: !GetAtt LambdaRole.Arn
+      Environment:
+        Variables:
+          REGION: us-west-2
+          TABLE_NAME: !Select [1, !Split ['/', !GetAtt WebsiteDynamoDBTable.Arn]]
+          JSON_BUCKET: !Ref StagingBucket
+
+  BuildAsset:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs12.x
+      CodeUri: build-page/
+      Description: >-
+        Pulls an asset (js or css) by pulling object, then writing page to S3.
+      MemorySize: 128
+      Timeout: 4
+      Role: !GetAtt LambdaRole.Arn
+      Environment:
+        Variables:
+          REGION: us-west-2
+          TABLE_NAME: !Select [1, !Split ['/', !GetAtt WebsiteDynamoDBTable.Arn]]
+          JSON_BUCKET: !Ref StagingBucket
+
+  EnhanceProductPage:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs12.x
+      CodeUri: enhance-product-page/
+      Description: >-
+        Adds additional content and formating to product page.
+      MemorySize: 128
+      Timeout: 8
+      Role: !GetAtt LambdaRole.Arn
+      Environment:
+        Variables:
+          REGION: us-west-2
+          TABLE_NAME: !Select [1, !Split ['/', !GetAtt WebsiteDynamoDBTable.Arn]]
+          JSON_BUCKET: !Ref StagingBucket
+
+  MoveToProductionBucket:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs12.x
+      Layers:
+        - !Ref MinifyLayer      
+      CodeUri: move-to-production-bucket/
+      Description: >-
+        Receives a key to object in S3, pulls contents from source, compresses contents,
+        PUTs new verison into production S3 bucket
+      MemorySize: 128
+      Timeout: 3
+      Role: !GetAtt LambdaRole.Arn    
+      Environment:
+        Variables:
+          REGION: us-west-2
+          TABLE_NAME: !Select [1, !Split ['/', !GetAtt WebsiteDynamoDBTable.Arn]]
+          SOURCE_BUCKET: !Ref StagingBucket
+          DESTINATION_BUCKET: !Ref ProductionBucket
+
+  MinifyLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: minify-layer
+      Description: Minifies html/js/css
+      ContentUri: dependencies/
+      CompatibleRuntimes:
+        - nodejs12.x
+      LicenseInfo: 'MIT'
+      RetentionPolicy: Retain
+
+  StepFunctionRole:
+    Type: AWS::IAM::Role
+    Properties: 
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+              - states.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'      
+      Description: >-
+        Role given to lambdas created in this application.
+      Policies:
+        - PolicyName: StepFunctionLambdaAccessPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: 'lambda:InvokeFunction'
+                Resource: [!GetAtt BuildPage.Arn,!GetAtt BuildAsset.Arn,!GetAtt EnhanceProductPage.Arn,!GetAtt MoveToProductionBucket.Arn]
+  
+  PublishStateMachine:
+    Type: AWS::StepFunctions::StateMachine
+    Properties:
+      RoleArn: !GetAtt [ StepFunctionRole, Arn ]      
+      DefinitionString: !Sub |-
+        {
+          "Comment": "State Machine that receivs an id and builds the html page or asset and then optionally moves it to produciton S3 bucket.",
+          "StartAt": "RouteByType",
+          "States": {
+            "RouteByType": {
+            "Type": "Choice",
+            "Choices": [
+              {
+                "Variable": "$.ctype",
+                "StringEquals": "page",
+                "Next": "BuildPage"
+              },
+              {
+                "Variable": "$.ctype",
+                "StringEquals": "product",
+                "Next": "BuildProduct"
+              },      
+              {
+                "Variable": "$.ctype",
+                "StringEquals": "asset",
+                "Next": "BuildAsset"
+              }
+             ],
+              "Default": "BuildPage"
+            },
+            "BuildPage": {
+              "Type": "Task",
+              "Resource": "${BuildPage.Arn}",
+              "Next": "PreviewOrPublish"
+            },
+            "BuildProduct": {
+              "Type": "Task",
+              "Resource": "${BuildPage.Arn}",
+              "Next": "EnhanceProduct"
+            }, 
+            "EnhanceProduct": {
+              "Type": "Task",
+              "Resource": "${EnhanceProductPage.Arn}",
+              "Next": "PreviewOrPublish"
+            },     
+            "BuildAsset": {
+              "Type": "Task",
+              "Resource": "${BuildAsset.Arn}",
+              "Next": "PreviewOrPublish"
+            },    
+            "PreviewOrPublish": {
+            "Type": "Choice",
+            "Choices": [
+              {
+                "Variable": "$.pType",
+                "StringEquals": "PREVIEW",
+                "Next": "EndStep"
+              },
+              {
+                "Variable": "$.ctype",
+                "StringEquals": "PUBLISH",
+                "Next": "CompressAndCopy"
+              }
+            ],
+            "Default": "CompressAndCopy"
+            },
+            "EndStep": {
+              "Type": "Pass",
+              "End": true
+            },      
+            "CompressAndCopy": {
+              "Type": "Task",
+              "Resource": "${MoveToProductionBucket.Arn}",
+              "End": true
+            }
+          }
+        }          
+
+  GetPostPolicyForUpload:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs12.x
+      CodeUri: return-s3-post-policy/
+      Description: >-
+        Provides a signed URL to be used to POST uploads to an S3 Bucket.
+      MemorySize: 128
+      Timeout: 3
+      Role: !GetAtt LambdaRole.Arn
+      Environment:
+        Variables:
+          REGION: us-west-2
+          UPLOAD_BUCKET: !Ref UploadBucket
+
+  #  InvalidateCloudFrontCache:
+  # Option to turn on via console S3 trigger
+  InvalidateCloudFrontCache: 
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs12.x
+      CodeUri: invalidate-cloudfront-cache/
+      Description: >-
+        Triggered when file PUT to S3 bucket, calls CloudFront invalidation to refresh changes.
+      MemorySize: 128     
+      Timeout: 2
+      Role: !GetAtt LambdaRole.Arn
+      Environment:
+        Variables:          
+          DISTRIBUTION_ID: !Ref CloudFrontDistribution
+  
+  # Copy Uploaded Images to Staging and Production Buckets
+  CopyUploadedImages:  
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs12.x
+      CodeUri: copy-uploaded-images/
+      Description: >-
+        Triggered when file PUT to S3 Uploade bucket, copies to Staging and Production Buckets
+      MemorySize: 128     
+      Timeout: 2
+      Role: !GetAtt LambdaRole.Arn
+      Environment:
+        Variables:          
+          STAGING_BUCKET: !Ref StagingBucket
+          PRODUCTION_BUCKET: !Ref ProductionBucket
+
+  APIGatewayToStepFunctionRole:
+    Type: AWS::IAM::Role
+    Properties: 
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+              - apigateway.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'      
+      ManagedPolicyArns: ['arn:aws:iam::aws:policy/AmazonAPIGatewayPushToCloudWatchLogs','arn:aws:iam::aws:policy/AWSStepFunctionsFullAccess']      
+      Description: >-
+        Role given to lambdas created in this application.
+  

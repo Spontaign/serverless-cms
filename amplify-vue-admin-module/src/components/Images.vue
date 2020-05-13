@@ -93,7 +93,7 @@ export default {
         this.itemSortAsc = !this.itemSortAsc;
     },
     showPath(path) {
-      alert("Relative path: " + path);
+      alert("Full path: " + path);
     }
   }
 }

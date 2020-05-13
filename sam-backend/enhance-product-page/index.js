@@ -91,8 +91,7 @@ const returnSpecialProductContent = async (features) => {
     return spc;  
     
   } else {
-    
-    
+      
     spc = `
         <div class="jumbotron">
           <h2>Features</h2>
@@ -110,7 +109,8 @@ const returnSpecialProductContent = async (features) => {
     spc += "</ul>\n</div>\n";
     
     return spc;
-  
+  }
+
 };
 
 /*

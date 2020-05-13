@@ -6,11 +6,6 @@
       <router-link :to="{ name: 'product', params: { id: entry.eid } }" tag="button" class="btn btn-primary float-right"  exact>Back to Product</router-link>  
     
     <h3>Product Features</h3>
-    <h3>{{parentObject.title}}</h3>
-    <h3>{{parentObject.websiteKey}}</h3>
-
-        <h3>e => {{entry.title}}</h3>
-    <h3>e => {{entry.websiteKey}}</h3>
 
     <div v-show="entry.pendingChanges" class="alert alert-danger text-center">
         You have unsaved changes!

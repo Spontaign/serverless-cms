@@ -12,19 +12,22 @@
                             },
                             {
                                 "S": "Product"
+                            },
+                            {
+                                "S": "Home"
                             }
                         ]
                     },
                     "pageSnippets": {
                         "L": [
                             {
-                                "S": "Header"
+                                "S": "Navigation"
                             },
                             {
                                 "S": "Footer"
                             },
                             {
-                                "S": "Navigation"
+                                "S": "Tracking"
                             }                            
                         ]
                     },
@@ -60,25 +63,208 @@
         {
             "PutRequest": {
                 "Item": {
-                    "eid": {"S":"f6R92f8DnrdtG8jA"},
-                    "ctype": {"S":"page"},
-                    "pageBody": {"S":"<hr />\n<strong> THIS IS THE BODY</strong>\n<hr />"},
-                    "pageLayout": {"S":"Main"},
-                    "seoTitle": {"S":"Page One SEO Title"},
-                    "showWebsite": {"BOOL":true},
-                    "title": {"S":"Test Page One"},
-                    "websiteKey": {"S":"test-page-one"},
-                    "websiteSection": {"S":"About Us"}
+                      "ctype": {
+                        "S": "page"
+                      },
+                      "eid": {
+                        "S": "f6R92f8DnrdtG8jA"
+                      },
+                      "pageBody": {
+                        "S": "<p>Sample page one...</p>"
+                      },
+                      "pageLayout": {
+                        "S": "Main"
+                      },
+                      "pendingChanges": {
+                        "BOOL": false
+                      },
+                      "seoTitle": {
+                        "S": "Page One SEO Title"
+                      },
+                      "showWebsite": {
+                        "BOOL": true
+                      },
+                      "title": {
+                        "S": "Sample Page One"
+                      },
+                      "websiteKey": {
+                        "S": "test-page-one"
+                      },
+                      "websiteSection": {
+                        "S": "About Us"
+                      }
                 }
             }
         },
         {
             "PutRequest": {
                 "Item": {
+                  "ctype": {
+                    "S": "page"
+                  },
+                  "description": {
+                    "S": "A very good page about important things."
+                  },
+                  "eid": {
+                    "S": "1589350432a1fs7uqs9c5"
+                  },
+                  "footerJs": {
+                    "S": "<script>console.log(\"in foooterJs\");</script>"
+                  },
+                  "headerCss": {
+                    "S": "<style>body > div {min-height:500px;}</style>"
+                  },
+                  "headerJs": {
+                    "S": "<script>console.log(\"in headerJs\");</script>"
+                  },
+                  "keywords": {
+                    "S": "great, good, fantastic"
+                  },
+                  "pageBody": {
+                    "S": "<p>Sample page two!</p>"
+                  },
+                  "pageLayout": {
+                    "S": "Main"
+                  },
+                  "pendingChanges": {
+                    "BOOL": false
+                  },
+                  "seoTitle": {
+                    "S": "Sample Page Two for SEO"
+                  },
+                  "showWebsite": {
+                    "BOOL": true
+                  },
+                  "title": {
+                    "S": "Sample Page Two"
+                  },
+                  "websiteKey": {
+                    "S": "page-two"
+                  },
+                  "websiteSection": {
+                    "S": "About Us"
+                  }
+                }
+            }
+        },
+
+        {
+            "PutRequest": {
+                "Item": {
+                  "ctype": {
+                    "S": "page"
+                  },
+                  "eid": {
+                    "S": "1589382060xiz77cfuov8"
+                  },
+                  "pageBody": {
+                    "S": "<p>\n  </p><h1 class=\"display-4\">Welcome to this website!</h1><p>\n  </p><p class=\"lead\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p><p>\n  </p><hr class=\"my-4\"><p>\n  </p><p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p><p>\n  </p><p class=\"lead\">\n    <a class=\"btn btn-primary btn-lg\" href=\"#\" role=\"button\">Get Started</a>\n  </p><p>\n</p>"
+                  },
+                  "pageLayout": {
+                    "S": "Home"
+                  },
+                  "pendingChanges": {
+                    "BOOL": false
+                  },
+                  "seoTitle": {
+                    "S": "Home Page"
+                  },
+                  "showWebsite": {
+                    "BOOL": true
+                  },
+                  "title": {
+                    "S": "Home Page"
+                  },
+                  "websiteKey": {
+                    "S": "index.html"
+                  },
+                  "websiteSection": {
+                    "S": "None"
+                  }
+                }
+            }
+        },
+
+        {
+            "PutRequest": {
+                "Item": {
+                  "ctype": {
+                    "S": "page"
+                  },
+                  "eid": {
+                    "S": "1589382792v06bgc6koi"
+                  },
+                  "headerCss": {
+                    "S": "<style>body > div {min-height:600px;}</style>"
+                  },
+                  "pageBody": {
+                    "S": "<h3><span style=\"color: rgb(240, 102, 102);\">Sorry, we could not find that page.</span></h3>"
+                  },
+                  "pageLayout": {
+                    "S": "Main"
+                  },
+                  "pendingChanges": {
+                    "BOOL": false
+                  },
+                  "seoTitle": {
+                    "S": "Error Page"
+                  },
+                  "showWebsite": {
+                    "BOOL": true
+                  },
+                  "title": {
+                    "S": "Error Page"
+                  },
+                  "websiteKey": {
+                    "S": "error.html"
+                  },
+                  "websiteSection": {
+                    "S": "None"
+                  }
+                }
+            }
+        },
+
+
+        {
+            "PutRequest": {
+                "Item": {
+                  "ctype": {
+                    "S": "layout"
+                  },
+                  "eid": {
+                    "S": "1589382008pzpxip7pftq"
+                  },
+                  "layoutBody": {
+                    "S": "<!DOCTYPE html>\n<html lang=en>\n\t\n\t<head>\n\t\t<meta charset=utf-8>\n\n\t\t<title><!-- ===> r:title <=== --></title>\n\t\t<meta name=\"keywords\" content=\"<!-- ===> r:keywords <=== -->\" />\n\t\t<meta name=\"description\" content=\"<!-- ===> r:description <=== -->\" />\n\n\t\t<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css\">\n\n\t\t<!-- ===> r:headerCss <=== -->\n\n\t\t<!-- ===> r:headerJs <=== -->\n\n\t</head>\n\t\n\t<body>\n\n\t\t<!-- ===> r:Tracking Tag <=== -->\n\n\t\t<div class=\"container mt-5 mb-5\">\n\n\t\t\t<div class=\"jumbotron\">\n\n\t\t\t\t<!-- ===> r:pageBody <=== -->\n\n\t\t\t</div>\n\n\t\t</div>\n\n\t\t<!-- ===> r:Footer <=== -->\n\n\t\t<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js\"></script>\n\t\t<script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js\"></script>\n\t\t<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js\"></script>\n\n\t\t<!-- ===> r:footerJs <=== -->\n\n\t</body>\n</html>"
+                  },
+                  "pageSnippets": {
+                    "L": [
+                      {
+                        "S": "Footer"
+                      },
+                      {
+                        "S": "Tracking Tag"
+                      }
+                    ]
+                  },
+                  "pendingChanges": {
+                    "BOOL": false
+                  },
+                  "title": {
+                    "S": "Home"
+                  }
+                }
+            }
+        },
+
+        {
+            "PutRequest": {
+                "Item": {
                     "eid": {"S":"YxVmK3k672rz"},
                     "ctype": {"S":"product"},
                     "pageBody": {"S":"<hr />\n<strong>Widget One</strong>\n<hr />"},
-                    "pageLayout": {"S":"Main"},
+                    "pageLayout": {"S":"Product"},
                     "seoTitle": {"S":"Widget One"},
                     "showWebsite": {"BOOL":true},
                     "title": {"S":"Widget One"},
@@ -90,40 +276,100 @@
         {
             "PutRequest": {
                 "Item": {
-                    "eid": {"S":"7g798SwtWc4Kz7zt"},
-                    "ctype": {"S":"layout"},
-                    "title": {"S":"Main"},  
-                    "pageSnippets": {
+                      "ctype": {
+                        "S": "productfeatures"
+                      },
+                      "eid": {
+                        "S": "YxVmK3k672rz"
+                      },
+                      "features": {
                         "L": [
-                            {
-                                "S": "Navigation"
-                            },
-                            {
-                                "S": "Footer"
-                            }
+                          {
+                            "S": "Very Blue"
+                          },
+                          {
+                            "S": "Stylish"
+                          }
                         ]
-                    },                                      
-                    "layoutBody": {"S":"<!DOCTYPE html>\n<html lang=en>\n\t\n\t<head>\n\t\t<meta charset=utf-8>\n\n\t\t<title><!-- ===> r:title <=== --></title>\n\n\t\t<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css\">\n\n\t</head>\n\t\n\t<body>\n\n\t\t<!-- ===> r:Navigation <=== -->\n\t\n\t\t<div class=\"container pt-3 pb-3\">\n\n\t\t<!-- ===> r:pageBody <=== -->\n\n\t\t</div>\n\n\t\t<!-- ===> r:Footer <=== -->\n\n\t\t<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js\"></script>\n\t\t<script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js\"></script>\n\t\t<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js\"></script>\n\n\t</body>\n</html>"}
+                      },
+                      "pendingChanges": {
+                        "BOOL": false
+                      },
+                      "title": {
+                        "S": "Widget One"
+                      },
+                      "websiteKey": {
+                        "S": "widget-one"
+                      }
+                }
+            }
+        },
+
+        {
+            "PutRequest": {
+                "Item": {
+                  "ctype": {
+                    "S": "layout"
+                  },
+                  "eid": {
+                    "S": "7g798SwtWc4Kz7zt"
+                  },
+                  "layoutBody": {
+                    "S": "<!DOCTYPE html>\n<html lang=en>\n\t\n\t<head>\n\t\t<meta charset=utf-8>\n\n\t\t<title><!-- ===> r:title <=== --></title>\n\t\t<meta name=\"keywords\" content=\"<!-- ===> r:keywords <=== -->\" />\n\t\t<meta name=\"description\" content=\"<!-- ===> r:description <=== -->\" />\n\n\t\t<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css\">\n\n\t\t<!-- ===> r:headerCss <=== -->\n\n\t\t<!-- ===> r:headerJs <=== -->\n\n\t</head>\n\t\n\t<body>\n\n\t\t<!-- ===> r:Tracking Tag <=== -->\n\n\t\t<!-- ===> r:Navigation <=== -->\n\t\n\t\t<div class=\"container pt-3 pb-3\">\n\n\t\t<!-- ===> r:pageBody <=== -->\n\n\t\t</div>\n\n\t\t<!-- ===> r:Footer <=== -->\n\n\t\t<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js\"></script>\n\t\t<script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js\"></script>\n\t\t<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js\"></script>\n\n\t\t<!-- ===> r:footerJs <=== -->\n\n\t</body>\n</html>"
+                  },
+                  "pageSnippets": {
+                    "L": [
+                      {
+                        "S": "Navigation"
+                      },
+                      {
+                        "S": "Footer"
+                      },
+                      {
+                        "S": "Tracking Tag"
+                      }
+                    ]
+                  },
+                  "pendingChanges": {
+                    "BOOL": false
+                  },
+                  "title": {
+                    "S": "Main"
+                  }
                 }
             }
         },
         {
             "PutRequest": {
                 "Item": {
-                    "eid": {"S":"yU898SeW1z7fg"},
-                    "ctype": {"S":"layout"},
-                    "title": {"S":"Product"},  
-                    "pageSnippets": {
-                        "L": [
-                            {
-                                "S": "Navigation"
-                            },
-                            {
-                                "S": "Footer"
-                            }
-                        ]
-                    },                                      
-                    "layoutBody": {"S":"<!DOCTYPE html>\n<html lang=en>\n\t\n\t<head>\n\t\t<meta charset=utf-8>\n\n\t\t<title><!-- ===> r:title <=== --></title>\n\n\t\t<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css\">\n\n\t</head>\n\t\n\t<body>\n\n\t\t<!-- ===> r:Navigation <=== -->\n\t\n\t\t<div class=\"container pt-3 pb-3\">\n\n\t\t<!-- ===> r:pageBody <=== -->\n\n\t\t<!-- ===> r:specialProductContent <=== -->\n\n\t\t</div>\n\n\t\t<!-- ===> r:Footer <=== -->\n\n\t\t<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js\"></script>\n\t\t<script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js\"></script>\n\t\t<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js\"></script>\n\n\t</body>\n</html>"}
+                  "ctype": {
+                    "S": "layout"
+                  },
+                  "eid": {
+                    "S": "yU898SeW1z7fg"
+                  },
+                  "layoutBody": {
+                    "S": "<!DOCTYPE html>\n<html lang=en>\n\t\n\t<head>\n\t\t<meta charset=utf-8>\n\n\t\t<title><!-- ===> r:title <=== --></title>\n\t\t<meta name=\"keywords\" content=\"<!-- ===> r:keywords <=== -->\" />\n\t\t<meta name=\"description\" content=\"<!-- ===> r:description <=== -->\" />\n\n\t\t<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css\">\n\n\t\t<!-- ===> r:headerCss <=== -->\n\n\t\t<!-- ===> r:headerJs <=== -->\n\n\t</head>\n\t\n\t<body>\n\n\t\t<!-- ===> r:Tracking Tag <=== -->\n\n\t\t<!-- ===> r:Navigation <=== -->\n\t\n\t\t<div class=\"container pt-3 pb-3\">\n\n\t\t<!-- ===> r:pageBody <=== -->\n\n\t\t<!-- ===> r:specialProductContent <=== -->\n\n\t\t</div>\n\n\t\t<!-- ===> r:Footer <=== -->\n\n\t\t<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js\"></script>\n\t\t<script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js\"></script>\n\t\t<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js\"></script>\n\n\t\t<!-- ===> r:footerJs <=== -->\n\n\t</body>\n</html>"
+                  },
+                  "pageSnippets": {
+                    "L": [
+                      {
+                        "S": "Navigation"
+                      },
+                      {
+                        "S": "Footer"
+                      },
+                      {
+                        "S": "Tracking Tag"
+                      }
+                    ]
+                  },
+                  "pendingChanges": {
+                    "BOOL": false
+                  },
+                  "title": {
+                    "S": "Product"
+                  }
                 }
             }
         },
@@ -140,11 +386,22 @@
         {
             "PutRequest": {
                 "Item": {
-                    "eid": {"S":"5wGMpQgGHpQMZkfG"},
-                    "ctype": {"S":"snippet"},
-                    "title": {"S":"Footer"},                    
-                    "snippetBody": {"S":"<div class=\"container-fluid bg-dark text-white\">\n\n                    <!--Footer-->\n                    <footer class=\"page-footer center-on-small-only stylish-color-dark\">\n\n                        <!--Footer Links-->\n                        <div class=\"container\">\n                            <div class=\"row\">\n\n                                <!--First column-->\n                                <div class=\"col-md-4\">\n                                    <h5 class=\"title mb-4 mt-3 font-bold\">Footer Content</h5>\n                                    <p>Your footer content here...</p>\n                                </div>\n                                <!--/.First column-->\n\n                                <hr class=\"clearfix w-100 d-md-none\">\n\n                                <!--Second column-->\n                                <div class=\"col-md-2 mx-auto\">\n                                    <h5 class=\"title mb-4 mt-3 font-bold\">Links</h5>\n                                    <ul>\n                                        <li><a href=\"#!\">Link 1</a></li>\n                                        <li><a href=\"#!\">Link 2</a></li>\n                                        <li><a href=\"#!\">Link 3</a></li>\n                                        <li><a href=\"#!\">Link 4</a></li>\n                                    </ul>\n                                </div>\n                                <!--/.Second column-->\n\n                                <hr class=\"clearfix w-100 d-md-none\">\n\n                                <!--Third column-->\n                                <div class=\"col-md-2 mx-auto\">\n                                    <h5 class=\"title mb-4 mt-3 font-bold\">Links</h5>\n                                    <ul>\n                                        <li><a href=\"#!\">Link 1</a></li>\n                                        <li><a href=\"#!\">Link 2</a></li>\n                                        <li><a href=\"#!\">Link 3</a></li>\n                                        <li><a href=\"#!\">Link 4</a></li>\n                                    </ul>\n                                </div>\n                                <!--/.Third column-->\n\n                                <hr class=\"clearfix w-100 d-md-none\">\n\n                                <!--Fourth column-->\n                                <div class=\"col-md-2 mx-auto\">\n                                    <h5 class=\"title mb-4 mt-3 font-bold \">Links</h5>\n                                    <ul>\n                                        <li><a href=\"#!\">Link 1</a></li>\n                                        <li><a href=\"#!\">Link 2</a></li>\n                                        <li><a href=\"#!\">Link 3</a></li>\n                                        <li><a href=\"#!\">Link 4</a></li>\n                                    </ul>\n                                </div>\n                                <!--/.Fourth column-->\n                            </div>\n                        </div>\n                        <!--/.Footer Links-->\n\n                        <hr>\n\n                        <!--Copyright-->\n                        <div class=\"footer-copyright pt-2 pb-5\">\n                            <div class=\"container-fluid\">\n                                © Copyright: <a href=\"https://www.google.com\"> yourdomain.com </a>\n\n                            </div>\n                        </div>\n                        <!--/.Copyright-->\n\n                    </footer>\n                    <!--/.Footer-->\n                                    \n</div>"}
-                }
+                  "ctype": {
+                    "S": "snippet"
+                  },
+                  "eid": {
+                    "S": "5wGMpQgGHpQMZkfG"
+                  },
+                  "pendingChanges": {
+                    "BOOL": false
+                  },
+                  "snippetBody": {
+                    "S": "<div class=\"container-fluid bg-dark text-white\">\n\n    <!--Footer-->\n    <footer class=\"page-footer center-on-small-only stylish-color-dark\">\n\n        <!--Footer Links-->\n        <div class=\"container\">\n            <div class=\"row\">\n\n                <!--First column-->\n                <div class=\"col-md-4\">\n                    <h5 class=\"title mb-4 mt-3 font-bold\">Footer Content</h5>\n                    <p>Your footer content here...</p>\n                </div>\n                <!--/.First column-->\n\n                <hr class=\"clearfix w-100 d-md-none\">\n\n                <!--Second column-->\n                <div class=\"col-md-2 mx-auto\">\n                    <h5 class=\"title mb-4 mt-3 font-bold\">Links</h5>\n                    <ul>\n                        <li><a href=\"#!\">Link 1</a></li>\n                        <li><a href=\"#!\">Link 2</a></li>\n                        <li><a href=\"#!\">Link 3</a></li>\n                        <li><a href=\"#!\">Link 4</a></li>\n                    </ul>\n                </div>\n                <!--/.Second column-->\n\n                <hr class=\"clearfix w-100 d-md-none\">\n\n                <!--Third column-->\n                <div class=\"col-md-2 mx-auto\">\n                    <h5 class=\"title mb-4 mt-3 font-bold\">Links</h5>\n                    <ul>\n                        <li><a href=\"#!\">Link 1</a></li>\n                        <li><a href=\"#!\">Link 2</a></li>\n                        <li><a href=\"#!\">Link 3</a></li>\n                        <li><a href=\"#!\">Link 4</a></li>\n                    </ul>\n                </div>\n                <!--/.Third column-->\n\n                <hr class=\"clearfix w-100 d-md-none\">\n\n                <!--Fourth column-->\n                <div class=\"col-md-2 mx-auto\">\n                    <h5 class=\"title mb-4 mt-3 font-bold \">Links</h5>\n                    <ul>\n                        <li><a href=\"#!\">Link 1</a></li>\n                        <li><a href=\"#!\">Link 2</a></li>\n                        <li><a href=\"#!\">Link 3</a></li>\n                        <li><a href=\"#!\">Link 4</a></li>\n                    </ul>\n                </div>\n                <!--/.Fourth column-->\n            </div>\n        </div>\n        <!--/.Footer Links-->\n\n        <hr>\n\n        <!--Copyright-->\n        <div class=\"footer-copyright pt-2 pb-5\">\n            <div class=\"container-fluid\">\n                © Copyright: <a href=\"https://www.google.com\"> yourdomain.com </a>\n\n            </div>\n        </div>\n        <!--/.Copyright-->\n\n    </footer>\n    <!--/.Footer-->\n                    \n</div>"
+                  },
+                  "title": {
+                    "S": "Footer"
+                  }
+               }
             }
         },
         {
@@ -157,6 +414,29 @@
                     "assetBody": {"S":"function() {\nconsole.log(\"Sample function!\");\n}"}
                 }
             }
+        },
+        {
+            "PutRequest": {
+                "Item": {                    
+                      "ctype": {
+                        "S": "snippet"
+                      },
+                      "eid": {
+                        "S": "1589381076xt1s8cfrt3f"
+                      },
+                      "pendingChanges": {
+                        "BOOL": false
+                      },
+                      "snippetBody": {
+                        "S": "<!-- Google Analytics goes here -->"
+                      },
+                      "title": {
+                        "S": "Tracking Tag"
+                      }
+                }
+            }
         }
+        
+
     ]
 }

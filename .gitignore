@@ -25,8 +25,6 @@ amplify-vue-admin-module/amplifyxc.config
 sam-backend/.aws-sam
 sam-backend/events
 sam-backend/samconfig.toml
-sam-backend/dependencies/nodejs/node_modules/
-
 
 # local env files
 .env.local

@@ -6,6 +6,13 @@ All pieces in the architecture diagram below are loosely coupled and individuall
 ![Serverless Content Management System Architecture](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/serverless-cms-architecture.png)
 
 
+## Why build this?
+
+Good question! This project is intended to be a Proof of Concept of a roboust Serverless Content Management System. I have used all sorts of systems over the years (WordPress, Drupal Joomla) and they all work great. However, I have never wanted ALL the functionality that comes with those systems nor the need to provide or pay for server hosting. A Serverless alternative is definitely achievalble and this project is intended to prove the point.
+
+Installing this project will yield a working content management system. While I use it for my own production projects, you can use it at your own risk. There are many topics covered with this project so it would be a great way to get exposed to AWS, Lambda, Amplify, Vue.js, Step Functions, and more.
+
+
 ## Getting Started
 
 This project is installed in three steps. First install the backend using the SAM CLI. Second, install the Amplify/Vue.js admin module which creates the SPA used to manage the content and the corresponding authentication and API. Finally, connect the two and update your settings.
@@ -88,12 +95,8 @@ Easily add your own styles, images, scripts, and content to and quickly publish 
 ![Serverless Content Management System Architecture](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/UI-publised-page-with-image.png)
 
 
-## AWS Compontents
-
-The CMS was designed to meet the following requirements:
 
 
+### Sample Sites using Serverless CMS
 
-
-
-
+[A Luxury Real Estate Team](https://www.bartlettre.com) using this CMS to manage their static pages and their real estate listings. They are able to add and edit their listings and pages. Custom workflow changes Active and Sold pages as the status of listings change.

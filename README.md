@@ -111,7 +111,7 @@ You can create your own Lambdas and modify the Step Function for even more custo
 
 "Products" are included in the installation and are intended to get you started. Customize "Products" however you need. Currently Products have "Features" which are tied to products and generate a simple list when the pages are built by the Step Function. Note that we are taking advantage of DynamoDB's NoSQL structure to extend Products by using a unique **Partition Key** but then different **Sort Keys**. "Product" and "Product Features" have the same Partition Key but different Sort Keys. This could easily be expanded to include additional data specific to your products. You could add a similar configuration for "Product Images" or anything else. 
 
-> Using DynamoDB as the primary data store also provides redundancy and disaster recovery with automatic point-in-recovery and manual backups.  
+> Using DynamoDB as the primary data store also provides redundancy and disaster recovery with automatic point-in-time recovery and manual backups.  
 
 
 ### Contact Forms

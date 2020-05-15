@@ -101,6 +101,26 @@ Easily add your own styles, images, scripts, and content and quickly publish pag
 
 
 
+## Additional Details
+
+
+### Customizing
+Out of the box you control what your pages look like with layouts, snippets, assets, and images. Add whatever css frameworks or templates you like to the your layots. Layouts can contain snippets (like navigation or footer) and individual pages can be assigned specific layouts. Pages also can have specific css and js added to the head or at the bottom of the page.
+
+You can create your own Lambdas and modify the Step Function for even more customation. For example, you could add a Lambda and a new Step Funciton path to create a catalog listing of your products that could be rebuild as products change.
+
+"Products" are included in the installation and are intended to get you started. Customize "Products" however you need. Currently Products have "Features" which are tied to products and generate a simple list when the pages are built by the Step Function. Note that we are taking advantage of DynamoDB's NoSQL structure to extend Products by using a unique **Partition Key** but then different **Sort Keys**. "Product" and "Product Features" have the same Partition Key but different Sort Keys. This could easily be expanded to include additional data specific to your products. You could add a similar configuration for "Product Images" or anything else. 
+
+> Using DynamoDB as the primary data store also provides redundancy and disaster recovery with automatic point-in-recovery and manual backups.  
+
+
+### Contact Forms
+I add serverless contact forms to the sites I've built using this system. Those have been handled well by other folks so here is a link to add the form to your site. You can certainly create the contact us page in this CMS but build the API Gateway and Lambdas as described in this [blog post](https://aws.amazon.com/blogs/architecture/create-dynamic-contact-forms-for-s3-static-websites-using-aws-lambda-amazon-api-gateway-and-amazon-ses/).
+
+
+### Custom Domain Names
+You can use AWS Certificate Manager and AWS Route 53 to update your CloudFront distribution to use your custom domain name. 
+
 
 ### Sample Sites using Serverless CMS
 

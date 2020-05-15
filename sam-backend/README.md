@@ -1,6 +1,6 @@
 # Installing the backend for the Serverless Content Management System
 
-The AWS Serverless Application Model (SAM) is a powerful tool that automates the construction of AWS infrastructure needed to run serverless applications. Using SAM, which expands on CloudFormation, allows you to maintain your infrastruce as code. You can deploy your instracture as stacks and also delete them as stacks when you no longer need the resources. Not only is this significantly more efficient than adding resources individually, it also greatly reduces the risk of errors.
+The AWS Serverless Application Model (SAM) is a powerful tool that automates the construction of AWS infrastructure needed to run serverless applications. Using SAM, which expands on CloudFormation, allows you to maintain your infrastructure as code. You can deploy your instracture as stacks and also delete them as stacks when you no longer need the resources. Not only is this significantly more efficient than adding resources individually, it also greatly reduces the risk of errors.
 
 Following the instructions below will create several Lambda functions (runtime is Node.js), a Step Function, S3 buckets a CloudFront distribution, IAM Roles & policies, a DynamoDB table, and more.
 

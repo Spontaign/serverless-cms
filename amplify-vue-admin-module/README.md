@@ -1,8 +1,8 @@
 # Installing the Admin Module for the Serverless Content Management System
 
-The Admin Module use AWS Amplify and Vue.js. 
+The Admin Module uses AWS Amplify and Vue.js. 
 
-**AWS Amplify** is development platform that makes is easy to build mobile and web applications. Authentication, in particular, is the big win when developing a viable serverless application. Authentication can typically be challenging and a primary reason why using WordPress or something similar for a CMS makes sense -- it has not made sense to build  authentication and authorization functionality when other systems already have it. This changes with AWS Amplify. Being able to add authentication and authorization from a CLI removes the complexity and that barrier.
+**AWS Amplify** is development platform that makes is easy to build mobile and web applications. Authentication, in particular, is the big win when developing a viable serverless application. Authentication can typically be challenging and a primary reason why using WordPress or something similar for a CMS makes sense -- it has not made sense to build  authentication and authorization functionality when other systems already have it. This changes with tools like AWS Amplify. Being able to add authentication and authorization from a CLI removes the complexity and that barrier. Amplify also provisions your resources in the cloud uses application stacks just like the SAM build in the first step.
 
 I chose **Vue.js** for this project because I think it is more accessible than Angular and React (Amplify has libraries for them as well). 
 
@@ -45,7 +45,7 @@ Then add api.
 amplify add api
 ```
 
-Here are the settings to enter for api -- **be sure to name the API "AdminModule**:
+Here are the settings to enter for api -- **be sure to name the API "AdminModule"**:
 
 ![Serverless Content Management System Architecture](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/AMP-add-api.png)
 
@@ -84,13 +84,13 @@ It takes a few minutes for Amplify to build all of the resources in AWS and then
 
 ___
 
-Once done, you will get the URL to the CloudFront Distribution. Note also that this is a Vue project so you can also run...
+Save the URL to the CloudFront Distribution but remember that this is a Vue project so you can also run...
 
 ```
 npm run serve
 ```
 
-...to run the SPA locally. You can also modify the SPA to fit your needs and run **amplify publish** to move your changes to CloudFront.
+...to run the SPA locally. You can also modify the SPA to fit your needs, test it locally, and then and run **amplify publish** to move your changes to CloudFront for all admin users.
 
 > **Note!** It can take a few minutes (or longer) for the DNS mapping CloudFront to the S3 bucket to fully propogate so the CloudFront URL may not work right away. While you are waiting for this to resolve, you can run the SPA locally.
 

@@ -1,13 +1,12 @@
 # Connecting the Admin Module and the Backend to complete installation for the Serverless Content Management System
 
-Now that you have installed the Backend using SAM and the the Admin Module using AWS Amplify, you need to finsih things off by connecting.
+Now that you have installed the Backend using SAM and the Admin Module using AWS Amplify, you need to finish things off by connecting them.
 
-The first two steps used CLIs. This step requires clicking around in the AWS Console. These steps are straight forward and could be automated in a future version... 
+The first two steps used CLIs. This step requires clicking around in the AWS Console. These steps are straight forward, but take a little work. In a future version it should be straight forward to eliminate this step entirely by combining the application stacks from install step 1 and step 2... 
 
 
 
 ## Installation
-
 We need to create 5 new endpoints in API Gateway to form the connection:
 
 | Endpoint | Method | Description | Backend Mapping |
@@ -24,7 +23,7 @@ From the AWS Console, go to API Gateway and then select the recently created API
 
 During the Admin Module installation we created a /test endpoint. We won't need that so you can delete. Select /test and then **Delete Resource** under Actions:
 
-![Serverless Content Management System Architecture](https://spontaign-public.s3.us-west-2.amazonaws.com/serverless-cms/API-delete-resource.png)
+![delete resource](https://spontaign-public.s3.us-west-2.amazonaws.com/serverless-cms/API-delete-resource.png)
 
 ___
 
@@ -32,57 +31,57 @@ Now we can start creating the 5 endpoints. Since these endpoints will all be acc
 
 Lets start with /entries. From Actions select **Create Resource**:
 
-![Serverless Content Management System Architecture](https://spontaign-public.s3.us-west-2.amazonaws.com/serverless-cms/API-create-resource.png?)
+![create resource](https://spontaign-public.s3.us-west-2.amazonaws.com/serverless-cms/API-create-resource.png?)
 
 ___
 
 Enter **entries** as the resource name and be sure to check the box to **Enable API Gateway CORS**.
 
-![Serverless Content Management System Architecture](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-new-child-resource.png)
+![enable cors](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-new-child-resource.png)
 
 ___
 
 That will create the **/entries** resource with an OPTIONS method. First configure the OPTIONS method by clicking on it and setting the **Integration type** to **Mock**:
 
-![Serverless Content Management System Architecture](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-Options.png)
+![OPTIONS](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-Options.png)
 
 ___
 
-Now we need to update the **Method Request** and **Method Response** for the OPTIONS endpoint to be able to handle application/json used to communicate with the SPA.  
+Now update the **Method Request** and **Method Response** for the OPTIONS endpoint to be able to handle application/json used to communicate with the SPA.  
 
 ___
 
 ### Update Request Body for Method Request
 Click on **Method Request** for the OPTIONS method and then select **Request Body** and set the **Content type** to **application/json** and set the **Model name** to **RequestSchema** as shown below:
 
-![Serverless Content Management System Architecture](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-method-execution-request-body.png)
+![method execution body](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-method-execution-request-body.png)
 
 ___
 
 ### Add HTTPS Status and Response Body for Method Response
 Click on **Method Response** for the OPTIONS method and then enter a new HTTP Status for 200. Once saved, expand the option and enter a **Request Body** and set the **Content type** to **application/json** and set **Models** to **ResponseSchema** as shown below:
 
-![Serverless Content Management System Architecture](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-response-header-and-body.png)
+![response header](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-response-header-and-body.png)
 
 ___
 
-Now we can add the GET Method. Select **/entries** and then **Create Method**:
+Next, add the GET Method. Select **/entries** and then **Create Method**:
 
-![Serverless Content Management System Architecture](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-add-METHOD.png)
+![method](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-add-METHOD.png)
 
 ___
 
-Now we need to link this method to the correcta Lambda function. From the table above, we see that the /entries GET method links to the **GetDynamoDBObjects** Lambda. Be sure to set the Integration type to Lambda Function, check the box that says **Use Lambda Proxy Integration**, and then find the correct Lambda:
+Now we need to link this method to the correct Lambda function. From the table above, we see that the /entries GET method links to the **GetDynamoDBObjects** Lambda. Be sure to set the Integration type to Lambda Function, check the box that says **Use Lambda Proxy Integration**, and then find the correct Lambda:
 
-![Serverless Content Management System Architecture](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-link-lambda.png)
+![lambda link](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-link-lambda.png)
 
-> If you see the error saying **Invalid Model indetified**, you will add the Request and Response models shortly to correct this.
+> If you see the error saying **Invalid Model indentified**, you will add the Request and Response models shortly to correct this.
 
 ___
 
 Now we need to secure this endpoint to allow only authenticated and authorized users. Go to the **Method Request** and update **Authorization** to use **AWS_IAM** as shown below:
 
-![Serverless Content Management System Architecture](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-method-request-auth.png)
+![method request](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-method-request-auth.png)
 
 ___
 
@@ -92,13 +91,13 @@ ___
 
 The last step for the method is to enable CORS.
 
-![Serverless Content Management System Architecture](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-Enable-CORS.png)
+![cors](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-Enable-CORS.png)
 
 ___
 
 If you set things up properly you will see a screen like this:
 
-![Serverless Content Management System Architecture](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-Enable-CORS-success.png)
+![cors](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-Enable-CORS-success.png)
 
 ___
 
@@ -120,21 +119,21 @@ With GET/entries now done, go through the same process for GET/entry, PUT/entry,
 
 ___
 
-The last resource, **/publish**, links to a STEP FUNCTION instead of a Lambda so it is handled differenly. Step Functions are a terrific way to build workflows and string together lambda functions and other AWS resources. 
+The last resource, **/publish**, links to a STEP FUNCTION instead of a Lambda so it is handled differently. Step Functions are a terrific way to build workflows and string together lambda functions and other AWS resources. 
 
 For this Serverless Content Management System, we use a Step Function to handle building pages, processing them, and then moving them to production. Here is the diagram of the Step Function:
 
-![Serverless Content Management System Architecture](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/StepFunctionDefinitiion.png)
+![step function](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/StepFunctionDefinitiion.png)
 
 
 Let's break down how this works:
 
 1. The /publish endpoint is called and it passes a json object containing an id, a type, and a preview-or-publish parameter as input to the Step Function.
-2. The first state of the Step Funciton is a choice and it routes the input to the next step according to the type. Pages get sent to a BuildPage lambda, Assets to the BuildAsset, and Products get handled their own way as well. 
+2. The first state of the Step Function is a choice and it routes the input to the next step according to the type. Pages get sent to a BuildPage lambda, Assets to the BuildAsset, and Products get handled their own way as well. 
 3. All paths then return to a second choice state. This state checks the preview-or-publish parameter and routes accordingly.
 4. For the publish route, the content goes through an additional state where it is compressed and then moved to the production bucket to be picked up by CloudFront, the CDN.
 
-Step Functions are very powerful and where this CMS can be easily extended to handle multiple types of pages or products or whatever your specific needs. For example, a catalog page could be added as a type with a corresponding new path in the Step Function that would route the type to new lambdas that pull in all products and include a list on the published page. 
+Step Functions are very powerful and where this CMS can be easily extended to handle multiple types of pages or products or whatever for your specific needs. For example, a catalog page could be added as a type with a corresponding new path in the Step Function that would route the type to new lambdas that pull in all products and include a list on the published page. 
 
 ___
 
@@ -145,14 +144,14 @@ To set up with last endpoint to go to the Step Function instead of a Lambda, we 
 
 When you create the POST method we need to set things up differently:
 
-![Serverless Content Management System Architecture](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-to-STEP-link-step-function.png)
+![step function link](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-to-STEP-link-step-function.png)
 
-- [ ] Set Integration type to *AWS Service*
+- [ ] Set Integration type to **AWS Service**
 - [ ] Set your region
-- [ ] Set AWS Service to *Step Functions*
-- [ ] Set HTTP Method to *POST*
-- [ ] Set Action Type to *Use action name*
-- [ ] Set Action to *Start Execution*
+- [ ] Set AWS Service to **Step Functions**
+- [ ] Set HTTP Method to **POST**
+- [ ] Set Action Type to **Use action name**
+- [ ] Set Action to **Start Execution**
 - [ ] Enter the Execution Role (see next)
 
 ___
@@ -166,7 +165,7 @@ ___
 
 Paste the ARN in the execution role and SAVE. Now this method has the permission to start an execution on a Step Function State Machine. 
 
-Now we need to tell API Gateway which State Machine to route POST calls made to this endpoint. This is handled with a **Mapping Template**. Click on the **Integration Request** for the POST/publish endpoint and then scroll down to **Mapping Tempates**. Click **Add Mapping Template** and enter **Content-Type** as **applciation/json** and then save. You can then enter the template below.
+Now we need to tell API Gateway which State Machine to route POST calls made to this endpoint. This is handled with a **Mapping Template**. Click on the **Integration Request** for the POST/publish endpoint and then scroll down to **Mapping Templates**. Click **Add Mapping Template** and enter **Content-Type** as **application/json** and then save. You can then enter the template below.
 
 Copy and paste the following into your template:
 
@@ -189,7 +188,7 @@ Now back in API Gateway, paste the step function ARN into the Mapping Template a
 
 ___
 
-Finally, just like the other 4 endpoints, you'll need to secure the POST method by updating the Authorization to AWS_IAM, *Update Request Body for Method Request* and *Add HTTPS Status and Response Body for Method Response*, and then enable CORS.
+Finally, just like the other 4 endpoints, you'll need to secure the POST method by updating the Authorization to AWS_IAM, **Update Request Body for Method Request** and **Add HTTPS Status and Response Body for Method Response**, and then enable CORS.
 
 ___
 
@@ -201,23 +200,23 @@ If it does, you can select **Deploy API** from the **Actions** menu to make your
 
 ___
 
-Amplify allows authenticated users to access the API endpoints by allowing authenticate users to assume an IAM Roles. Creating and linking the IAM Roles to API Gateway and Cognito is all handled by Amplify, but we do need to modify the authorized role to include these five endpoints we just created.
+Amplify allows authenticated users to access the API endpoints by allowing authenticated users to assume IAM Roles. Creating and linking the IAM Roles to API Gateway and Cognito is all handled by Amplify, but we do need to modify the authorized role to include these five endpoints we just created.
 
-Go to IAM and then select Roles. Search for "authRole" and select the role with the Trusted entities as **Identity Provider: congnito...***.
+Go to IAM and then select Roles. Search for "authRole" and select the role with the Trusted entities as **Identity Provider: cognito...***.
 
-![Serverless Content Management System Architecture](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-IAM-COGNITO-ROLE.png)
+![cognito](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-IAM-COGNITO-ROLE.png)
 
 ___
 
 Click on the one Policy assigned to that Role and then Edit Policy and then select the JSON tab to edit the JSON directly. It should look like this:
 
-![Serverless Content Management System Architecture](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-IAM-COGNITO-ROLE-3.png)
+![cognito](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-IAM-COGNITO-ROLE-3.png)
 
 ___
 
-We just need to edit this JSON Policy to remove the test endpoint thenn enter the five enpoints we just established in API Gateway. Edit the policy to match below and then save the policy:
+We just need to edit this JSON Policy to remove the test endpoint and then enter the five endpoints we just built and deployed in API Gateway. Edit the policy to match below and then save the policy:
 
-![Serverless Content Management System Architecture](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-IAM-COGNITO-ROLE-4.png)
+![cognito](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-IAM-COGNITO-ROLE-4.png)
 
 
 ## Try it out!
@@ -259,17 +258,17 @@ ___
 
 Images are uploaded to a specific S3 bucket. There is a Lambda that moves uploaded images to the staging and production S3 buckets but we need to enable a trigger.
 
-In some of my uses of this CMS, I also create thumbnails and compress and optimize the images before loading them into the correct buckets. There are several applicatons in the **Serverless Application Repository** that can handle this for you and you can just plug them in. I won't go into that here, but there are plenty of options to process your images once they have been uploaded.
+In some of my uses of this CMS, I also create thumbnails and compress and optimize the images before loading them into the correct buckets. There are several completed applications in the **Serverless Application Repository** you can just plug in. I won't go into that here, but there are plenty of options to process your images once they have been uploaded.
 
 To add the trigger, go to the AWS Console and then Lambda. Search for the function **CopyUploadedImages** and go into the function. Select Add Trigger:
 
-![Serverless Content Management System Architecture](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/AddUploadTrigger.png)
+![upload trigger](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/AddUploadTrigger.png)
 
 ___
 
-Select S3 and then the *uploadbucket*  and enable the trigger:
+Select S3 and then the **uploadbucket** and enable the trigger:
 
-![Serverless Content Management System Architecture](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/AddUploadTrigger-2.png)
+![upload trigger](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/AddUploadTrigger-2.png)
 
 ___
 
@@ -279,19 +278,19 @@ ___
 
 ### Enable a Lambda trigger to handle cache invalidation on the Production S3 bucket
 
-CloudFront maximizes download times by caching copies of your content at their edge locations. This works great, but what happens if the content changes? The TTL (time to live) on CloudFront should be pretty long so a CMS needs to be able to tell CloudFront to refresh content when it is modified.
+CloudFront minimizes download times by caching copies of your content at their edge locations. This works great, but what happens if the content changes? The TTL (time to live) on CloudFront should be pretty long so a CMS needs to be able to tell CloudFront to refresh content when it is modified.
 
-Reshreshing content can easily be handled with the S3 bucket triggering a Lambda that sends an invalidation request to CloudFront so that CloudFront will pick up a new version of the content the next time it is requested. This Lambda is included in the backend already so we just need to add the S3 trigger.
+Refreshing content can easily be handled with the S3 bucket triggering a Lambda that sends an invalidation request to CloudFront so that CloudFront will pick up a new version of the content the next time it is requested. This Lambda is included in the backend already, so we just need to add the S3 trigger.
 
 To add the trigger, go to the AWS Console and then Lambda. Search for the function **InvalidateCloudFrontCache** and go into the function. Select Add Trigger:
 
-![Serverless Content Management System Architecture](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/AddCacheTrigger.png)
+![add cache trigger](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/AddCacheTrigger.png)
 
 ___
 
-Select S3 and then the **productionBucket**  and enable the trigger:
+Select S3 and then the **productionBucket** and enable the trigger:
 
-![Serverless Content Management System Architecture](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/AddCacheTrigger-2.png)
+![add cache trigger](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/AddCacheTrigger-2.png)
 
 ___
 
@@ -304,7 +303,7 @@ Invalidation requests are an extra step and can take a few seconds to process, b
 
 ### Edit the Cognito User Pool to not allow Sign Ups
 
-You probably do not want anyone to be able to sign up for an account to your content management system. Instead, you can go to the Cognito User Pool and turn off the ability to sign up. For this system, you will manage users from the Cognito User Pool.
+You probably do not want anyone to be able to sign up for an account to your content management system. Instead, you can go to the Cognito User Pool and turn off the ability to sign up. For this system, you handle adding and editing all of the users from the Cognito User Pool in the AWS Console.
 
 From the AWS Console go to Cognito and select the User Pool created for this project and then edit the section that includes **User sign ups allowed?**:
 
@@ -314,11 +313,11 @@ ___
 
 Then just change that setting to **Only allow administrators to create users**:
 
-![Serverless Content Management System Architecture](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/Cognito-LockSignUp-2.png)
+![cognito 2](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/Cognito-LockSignUp-2.png)
 
 ___
 
 
 # Final Thoughts
 
-With everything set up, you now have a working Serverless Content Management System. It is highly performant, secure, redundant, and should cost a few dollars per month.
+With everything set up, you now have a working Serverless Content Management System. It is highly performant, secure, redundant, extendable, and should cost a few dollars per month for most cases.

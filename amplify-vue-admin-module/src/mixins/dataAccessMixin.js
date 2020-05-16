@@ -74,7 +74,7 @@ export const dataAccessMixin = {
             this.changesText = 'Saving...';
             this.entry.pendingChanges = false;
             let apiName = 'AdminModule';
-            let path = '/entry';
+            let path = '/entry-update';
             let apiInit = {
                 body: this.entry
             };

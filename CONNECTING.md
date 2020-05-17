@@ -61,19 +61,19 @@ Let's break down how this works:
 3. All paths then return to a second choice state. This state checks the preview-or-publish parameter and routes accordingly.
 4. For the publish route, the content goes through an additional state where it is compressed and then moved to the production bucket to be picked up by CloudFront, the CDN.
 
-Step Functions are very powerful and this is where this CMS can be easily extended to handle multiple types of pages or products (or services or whatever) for your specific needs. For example, a catalog page could be added as a type with a corresponding new path in the Step Function that would route that type to new lambdas that pull in all products and include a list on the published page. 
+Step Functions are very powerful and this is where this CMS can be easily extended to handle multiple types of pages or products (or services or whatever) for your specific needs. For example, a catalog page, or multiple catalog pages, could be added as a type with a corresponding new path in the Step Function that would route that type to new lambdas that pull in all products and include a list on the published page. 
 
 ___
 
-To set up with last endpoint to go to the Step Function instead of a Lambda, we need modify the /publish resource.
+To set the last endpoint to go to the Step Function instead of a Lambda, we need modify the /publish resource.
 
 First, we need to delete the proxy resource. Select the **/{proxy}** Resource under the /publish Resouce and then select **Delete Resource** under the Actions menu:
 
 ![delete proxy](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/a1-api-delete-resource-publish-proxy.png)
 
-Next, select the **ANY** Method under the /publish Resource and then select **Delete Resource** under the Actions menu:
+Next, select the **ANY** Method under the /publish Resource and then select **Delete Method** under the Actions menu:
 
-![delete proxy](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/a1-api-delete-resource.png)
+![delete proxy](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/a1-api-delete-method-any.png)
 
 Now, select the /publish Resource and select **Create Method** under the Actions menu. Use the menu to select **POST**:
 
@@ -81,11 +81,11 @@ Now, select the /publish Resource and select **Create Method** under the Actions
 
 The next screen will look like this:
 
-![add post method](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/a1-api-add-post1.png)
+![add post method](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/a1-api-add-post-1.png)
 
-You may see an error that says **Invalid model indetified specified. Empty** -- you will fix this later.
+You may see an error that says **Invalid model indetifier specified. Empty** -- you will fix this later.
 
-Change the **Integration Type** from Lambda Function to **AWS Service** and the we need to configure as follows:
+Change the **Integration Type** from Lambda Function to **AWS Service** and then we need to configure as follows:
 
 ![step function link](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/api-post-config.png)
 
@@ -110,7 +110,7 @@ ___
 
 Paste the ARN in the execution role and SAVE. Now this method has the permission to start an execution on a Step Function State Machine. 
 
-Now we need to tell API Gateway which State Machine to route POST calls made to this endpoint. This is handled with a **Mapping Template**. Click on the **Integration Request** for the POST/publish endpoint and then scroll down to **Mapping Templates**. Click **Add Mapping Template** and enter **Content-Type** as **application/json** and then save. You can then enter the template below.
+Now we need to tell API Gateway which State Machine to route POST calls made to this endpoint. This is handled with a **Mapping Template**. Click on the **Integration Request** for the POST/publish endpoint and then scroll down to **Mapping Templates**. Click **Add Mapping Template** and enter **Content-Type** as **application/json** and then save. Then enter the template below.
 
 Copy and paste the following into your template:
 
@@ -127,17 +127,17 @@ Now from the AWS Console, go to **Step Functions**, and find the Step Function c
 ![Find Step Function](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-to-STEP-link-step-function-getSTEP-ARN.png)
 
 
-Now back in API Gateway, paste the step function ARN into the Mapping Template and then save. It should look like this (with your State Machine ARN):
+Now back in API Gateway, paste the Step Function ARN into the Mapping Template and then save. It should look like this (with your State Machine ARN):
 
 ![Mapping Template](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-to-STEP-link-step-function-mapping-template.png)
 
 ___
 
-There are a few more steps to complete this endpoint to make sure it requires the IAM role and make sure it json to properly communicate with the SPA...
+There are a few more steps to complete this endpoint to make sure it requires the IAM role and to make sure it uses json to properly communicate with the SPA...
 
 First, we need to secure this endpoint to allow only authenticated and authorized users. Go to the **Method Request** and update **Authorization** to use **AWS_IAM** as shown below:
 
-![method request](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-method-request-auth.png)
+![method request](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/method-authorization.png)
 
 
 Still in the **Method Request**, scroll down to **Request Body** and set the **Content type** to **application/json** and set the **Model name** to **RequestSchema** as shown below:
@@ -175,14 +175,14 @@ ___
 
 With all that in place, return to the Admin Module UI, sign out, and then sign back in and you should see the seed data in Pages.
 
-If you do, then you have successfully connected the Backend with the Admin Module!
+If you do, then you have successfully connected the Backend with the Admin Module! 
 
 
 ## Final Configuration
 
 Now we just need to:
 
-- [ ] Set the URL for the Staging Bucket & CloudFront Distribution
+- [ ] Set the URL for the Staging Bucket & CloudFront Distribution in the Admin Module
 - [ ] Enable a Lambda trigger when images have been uploaded
 - [ ] Enable a Lambda trigger to handle cache invalidation on the Production S3 bucket
 - [ ] Edit the Cognito User Pool to not allow Sign Ups
@@ -252,6 +252,7 @@ Invalidation requests do have a free tier that normal use will likely not exceed
 
 Invalidation requests are an extra step and can take a few seconds to process, but it is a fair trade off for delivery fresh content with the performance provided by using CloudFront to deliver your content.
 
+___
 
 ### Edit the Cognito User Pool to not allow Sign Ups
 

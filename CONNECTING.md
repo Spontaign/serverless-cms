@@ -2,12 +2,21 @@
 
 Now that you have installed the Backend using SAM and the Admin Module using AWS Amplify, you need to finish things off by connecting them.
 
-The first two steps used CLIs. This step requires clicking around in the AWS Console. These steps are straight forward, but take a little work. In a future version it should be straight forward to eliminate this step entirely by combining the application stacks from install step 1 and step 2... 
+The connection takes place in API Gateway and we will simply swap out the placeholder lambdas created by Amplify for the ones created by the SAM CLI. 
+
+The first two steps use CLIs and in a future version it should be straight forward to eliminate this step entirely by combining the application stacks from install step 1 and install step 2... For now, you just need to click around the AWS Console to finish off the installation.
 
 
 
 ## Installation
-We need to create 5 new endpoints in API Gateway to form the connection:
+From the AWS Console, go to API Gateway and then select the recently created API. It should look like this:
+
+![api fresh](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/a1-api-all-endpoints.png)
+
+
+We can see that Amplify already did most of the work building the API and connecting the authorization. Remember that we linked these endpoints to placeholder Lambdas. To connect the backend and the frontend, we need to point these endpoints to our backend lambdas.
+
+The table below shows the backend mapping needed. The /publish endpoint goes to a Step Function so we will handle that one last.
 
 | Endpoint | Method | Description | Backend Mapping |
 | --- | --- | --- | --- |
@@ -19,103 +28,22 @@ We need to create 5 new endpoints in API Gateway to form the connection:
 
 ___
 
-From the AWS Console, go to API Gateway and then select the recently created API.
+We will start with the /entries resouce. Click on /entries and the ANY method and then select **Integration Request**:
 
-During the Admin Module installation we created a /test endpoint. We won't need that so you can delete. Select /test and then **Delete Resource** under Actions:
-
-![delete resource](https://spontaign-public.s3.us-west-2.amazonaws.com/serverless-cms/API-delete-resource.png)
+![/entries any](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/a1-api-select-entries.png)
 
 ___
 
-Now we can start creating the 5 endpoints. Since these endpoints will all be accessed from an SPA, we will need to configure CORS for each. 
+On the Integration Request page, we need to swap out the **Lambda Function**
 
-Lets start with /entries. From Actions select **Create Resource**:
 
-![create resource](https://spontaign-public.s3.us-west-2.amazonaws.com/serverless-cms/API-create-resource.png?)
-
-___
-
-Enter **entries** as the resource name and be sure to check the box to **Enable API Gateway CORS**.
-
-![enable cors](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-new-child-resource.png)
+![/entries lambda](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/a1-api-select-integration-request.png)
 
 ___
 
-That will create the **/entries** resource with an OPTIONS method. First configure the OPTIONS method by clicking on it and setting the **Integration type** to **Mock**:
+From the table above, we can see that /entries goes to the Lambda with **GetDynamoDBObjects** in the title. Click on the pencil icon next to the **Lambda Function** fields and then search for the correct Lambda. Click save and confirm.
 
-![OPTIONS](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-Options.png)
-
-___
-
-Now update the **Method Request** and **Method Response** for the OPTIONS endpoint to be able to handle application/json used to communicate with the SPA.  
-
-___
-
-### Update Request Body for Method Request
-Click on **Method Request** for the OPTIONS method and then select **Request Body** and set the **Content type** to **application/json** and set the **Model name** to **RequestSchema** as shown below:
-
-![method execution body](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-method-execution-request-body.png)
-
-___
-
-### Add HTTPS Status and Response Body for Method Response
-Click on **Method Response** for the OPTIONS method and then enter a new HTTP Status for 200. Once saved, expand the option and enter a **Request Body** and set the **Content type** to **application/json** and set **Models** to **ResponseSchema** as shown below:
-
-![response header](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-response-header-and-body.png)
-
-___
-
-Next, add the GET Method. Select **/entries** and then **Create Method**:
-
-![method](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-add-METHOD.png)
-
-___
-
-Now we need to link this method to the correct Lambda function. From the table above, we see that the /entries GET method links to the **GetDynamoDBObjects** Lambda. Be sure to set the Integration type to Lambda Function, check the box that says **Use Lambda Proxy Integration**, and then find the correct Lambda:
-
-![lambda link](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-link-lambda.png)
-
-> If you see the error saying **Invalid Model indentified**, you will add the Request and Response models shortly to correct this.
-
-___
-
-Now we need to secure this endpoint to allow only authenticated and authorized users. Go to the **Method Request** and update **Authorization** to use **AWS_IAM** as shown below:
-
-![method request](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-method-request-auth.png)
-
-___
-
-We need to also set this method to handle json from the SPA so follow the same steps above for **Update Request Body for Method Request** and **Add HTTPS Status and Response Body for Method Response**.
-
-___
-
-The last step for the method is to enable CORS.
-
-![cors](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-Enable-CORS.png)
-
-___
-
-If you set things up properly you will see a screen like this:
-
-![cors](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-Enable-CORS-success.png)
-
-___
-
-With GET/entries now done, go through the same process for GET/entry, PUT/entry, and GET/post-policy. They all need CORS and need to be matched to the correct Lambda function. The associated Lambdas are listed above and here is a checklist:
-
-- [x] Create /entries Resource
-- [x] Configure OPTIONS method for /entries
-- [x] Add and configure GET method for /entries
-- [x] Enable CORS for /entries
-- [ ] Create /entry Resource
-- [ ] Configure OPTIONS method for /entry
-- [ ] Add and configure GET method for /entry
-- [ ] Add and configure PUT method for /entry
-- [ ] Enable CORS for /entries
-- [ ] Create /post-policy Resource
-- [ ] Configure OPTIONS method for /post-policy
-- [ ] Add and configure GET method for /post-policy
-- [ ] Enable CORS for /post-policy
+Now do the same for /entry, /entry-update, and /post-policy by using the Lambdas in the table above. 
 
 ___
 
@@ -133,20 +61,37 @@ Let's break down how this works:
 3. All paths then return to a second choice state. This state checks the preview-or-publish parameter and routes accordingly.
 4. For the publish route, the content goes through an additional state where it is compressed and then moved to the production bucket to be picked up by CloudFront, the CDN.
 
-Step Functions are very powerful and where this CMS can be easily extended to handle multiple types of pages or products or whatever for your specific needs. For example, a catalog page could be added as a type with a corresponding new path in the Step Function that would route the type to new lambdas that pull in all products and include a list on the published page. 
+Step Functions are very powerful and this is where this CMS can be easily extended to handle multiple types of pages or products (or services or whatever) for your specific needs. For example, a catalog page could be added as a type with a corresponding new path in the Step Function that would route that type to new lambdas that pull in all products and include a list on the published page. 
 
 ___
 
-To set up with last endpoint to go to the Step Function instead of a Lambda, we need to create the resource and set up the OPTIONS method just as above. 
+To set up with last endpoint to go to the Step Function instead of a Lambda, we need modify the /publish resource.
 
-- [ ] Create /publish Resource
-- [ ] Configure OPTIONS method for /post-policy
+First, we need to delete the proxy resource. Select the **/{proxy}** Resource under the /publish Resouce and then select **Delete Resource** under the Actions menu:
 
-When you create the POST method we need to set things up differently:
+![delete proxy](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/a1-api-delete-resource-publish-proxy.png)
 
-![step function link](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-to-STEP-link-step-function.png)
+Next, select the **ANY** Method under the /publish Resource and then select **Delete Resource** under the Actions menu:
 
-- [ ] Set Integration type to **AWS Service**
+![delete proxy](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/a1-api-delete-resource.png)
+
+Now, select the /publish Resource and select **Create Method** under the Actions menu. Use the menu to select **POST**:
+
+![add post method](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/a1-api-add-method-post.png)
+
+The next screen will look like this:
+
+![add post method](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/a1-api-add-post1.png)
+
+You may see an error that says **Invalid model indetified specified. Empty** -- you will fix this later.
+
+Change the **Integration Type** from Lambda Function to **AWS Service** and the we need to configure as follows:
+
+![step function link](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/api-post-config.png)
+
+Here is your checklist:
+
+- [x] Set Integration type to **AWS Service**
 - [ ] Set your region
 - [ ] Set AWS Service to **Step Functions**
 - [ ] Set HTTP Method to **POST**
@@ -188,36 +133,43 @@ Now back in API Gateway, paste the step function ARN into the Mapping Template a
 
 ___
 
-Finally, just like the other 4 endpoints, you'll need to secure the POST method by updating the Authorization to AWS_IAM, **Update Request Body for Method Request** and **Add HTTPS Status and Response Body for Method Response**, and then enable CORS.
+There are a few more steps to complete this endpoint to make sure it requires the IAM role and make sure it json to properly communicate with the SPA...
+
+First, we need to secure this endpoint to allow only authenticated and authorized users. Go to the **Method Request** and update **Authorization** to use **AWS_IAM** as shown below:
+
+![method request](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-method-request-auth.png)
+
+
+Still in the **Method Request**, scroll down to **Request Body** and set the **Content type** to **application/json** and set the **Model name** to **RequestSchema** as shown below:
+
+![method execution body](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-method-execution-request-body.png)
+
+___
+
+Next, click on **Method Response** for the /post Method and then enter a new HTTP Status for 200. Once saved, expand the option and enter a **Request Body** and set the **Content type** to **application/json** and set **Models** to **ResponseSchema** as shown below:
+
+![response header](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-response-header-and-body.png)
+
+___
+
+
+The last step for the method is to enable CORS. Click on the POST method under /publish, and then select **Enable CORS**:
+
+![cors](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/cors1.png)
+
+Accept and if successful, you should get a message like this:
+
+![cors](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/cors2.png)
 
 ___
 
 With that done, your API should look like this:
 
-![API All Resources](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-gateway-all-resources.png)
+![API All Resources](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/deploy-ready.png)
 
 If it does, you can select **Deploy API** from the **Actions** menu to make your changes available.
 
 ___
-
-Amplify allows authenticated users to access the API endpoints by allowing authenticated users to assume IAM Roles. Creating and linking the IAM Roles to API Gateway and Cognito is all handled by Amplify, but we do need to modify the authorized role to include these five endpoints we just created.
-
-Go to IAM and then select Roles. Search for "authRole" and select the role with the Trusted entities as **Identity Provider: cognito...***.
-
-![cognito](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-IAM-COGNITO-ROLE.png)
-
-___
-
-Click on the one Policy assigned to that Role and then Edit Policy and then select the JSON tab to edit the JSON directly. It should look like this:
-
-![cognito](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-IAM-COGNITO-ROLE-3.png)
-
-___
-
-We just need to edit this JSON Policy to remove the test endpoint and then enter the five endpoints we just built and deployed in API Gateway. Edit the policy to match below and then save the policy:
-
-![cognito](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/API-IAM-COGNITO-ROLE-4.png)
-
 
 ## Try it out!
 

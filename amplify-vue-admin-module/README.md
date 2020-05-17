@@ -129,7 +129,7 @@ amplify publish
 
 You will get a prompt to confirm creating the set of resources:
 
-![publish confirm](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/AMP-publish-confirm.png)
+![publish confirm](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/a1-amplify-resource-publish.png)
 
 ___
 

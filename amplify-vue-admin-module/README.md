@@ -154,7 +154,7 @@ npm run serve
 
 Go to the CloudFront URL, or your local URL if running locally, and you should see the Sign In / Sign Up box for the Admin Module.
 
-![sign in](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/UI-signin.png)
+![sign in](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/s-signin.png)
 
 Click on **Create Account**, fill out the form, confirm your email address, and then sign in. Once you have successfully signed in, you are ready to move on to the next step!
 

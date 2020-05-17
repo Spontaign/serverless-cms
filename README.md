@@ -57,7 +57,7 @@ This Serverless Content Management System meets all of these requirements. The s
 
 Secure sign using AWS CloudFront and Cognito. Once authenticated, you can manage Pages, Products, Images, Assets, Snippets, and Layouts. 
 
-![sign in](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/UI-signin.png)
+![sign in](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/s-signin.png)
 
 ___
 
@@ -65,7 +65,7 @@ ___
 
 Create as many pages as you need. Products are similar to Pages and optionally allow you to host a catalog or list of your products, services or whatever the website is offering.
 
-![pages](https://spontaign-public.s3.us-west-2.amazonaws.com/serverless-cms/UI-pages-data.png)
+![pages](https://spontaign-public.s3.us-west-2.amazonaws.com/serverless-cms/s-pages.png)
 
 ___
 
@@ -73,7 +73,7 @@ ___
 
 Use as many layouts as you need. Layouts can reference your css and/or js frameworks and provide basic structure to your pages. Snippets, reusable pieces like footers, navigation, and tracking tags, can be added to layouts. 
 
-![layouts](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/UI-layouts-data.png)
+![layouts](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/s-layouts.png)
 
 ___
 
@@ -81,7 +81,7 @@ ___
 
 Manage content with simple forms and use WYSIWYG editors with the ability to add inline photos. Pages and Products can be assigned different layouts.
 
-![wysiwyg editor](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/UI-add-image-from-editor.png)
+![wysiwyg editor](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/s-editpage.png)
 
 ___
 
@@ -89,7 +89,7 @@ ___
 
 Preview your changes from a staging S3 bucket website before publishing for end users on CloudFront, the AWS CDN.
 
-![preview and publish](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/UI-Publish.png)
+![preview and publish](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/s-publish.png)
 
 ___
 
@@ -97,7 +97,7 @@ ___
 
 Easily add your own styles, images, scripts, and content and quickly publish pages.
 
-![published content](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/UI-publised-page-with-image.png)
+![published content](https://spontaign-public.s3-us-west-2.amazonaws.com/serverless-cms/s-page.png)
 
 
 

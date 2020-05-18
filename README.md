@@ -123,7 +123,7 @@ You can use AWS Certificate Manager and AWS Route 53 to update your CloudFront d
 
 
 ### Future Enhancements
-It should be straightforward  to roll the SAM Build application (install step 1) into the Amplify framework (install step 3) thereby allowing an even simpler deployment. Further, by combining the two builds, it would eliminate the need to connect them in the current third installation step. When I get some more time I will look into it!
+It should be straightforward to roll the SAM Build application (install step 1) into the Amplify framework (install step 2) thereby allowing an even simpler deployment. Further, by combining the first two steps into one, it would eliminate the need to connect them in the current third installation step. When I get some more time I will look into it!
 
 
 ### Sample Sites using Serverless CMS

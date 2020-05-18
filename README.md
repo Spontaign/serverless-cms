@@ -8,7 +8,9 @@ All pieces in the architecture diagram below are loosely coupled and individuall
 
 ## Why build this?
 
-This project is intended to be a **Proof of Concept** for a Serverless Content Management System. I have used all sorts of content management systems over the years (like WordPress, Drupal Joomla) and they all work great. However, I have never wanted ALL the functionality that comes with those systems nor the need to provision or pay for server hosting. A Serverless alternative is definitely achievalble and this project is intended to prove the point.
+This project is intended to be a **Proof of Concept** for a Serverless Content Management System. I have used all sorts of content management systems over the years (like WordPress, Drupal Joomla) and they all work great. However, I have never wanted ALL the functionality that comes with those systems nor the need to provision or pay for server hosting. 
+
+There are some other options out there, like [Webiny](https://www.webiny.com/), but that uses React and I have taken to Vue.js. I really just want a lean system that can be easily deployed and then be able to quickly build, publish, and manage websites using AWS. This project is intended to show how it could work.
 
 Installing this project will yield a working content management system. While I use it for my own production projects, there are no warranties. There are many topics covered with this project so it would be a great way to get exposed to AWS, Lambda (Node.js runtime), Amplify, Vue.js, Step Functions, and more. In particular, this project shows how you can join together AWS components to form applications.
 

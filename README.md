@@ -107,7 +107,7 @@ Easily add your own styles, images, scripts, and content and quickly publish pag
 
 
 ### Customizing
-Out of the box you control what your pages look like with layouts, snippets, assets, and images. Add whatever css frameworks or templates you like to the your layots. Layouts can contain snippets (like navigation or footer) and individual pages can be assigned specific layouts. Pages also can have specific css and js added to the head or at the bottom of the page.
+Out of the box you control what your pages look like with layouts, snippets, assets, and images. Add whatever css frameworks or templates you like to the your layouts. Layouts can contain snippets (like navigation or footer) and individual pages can be assigned specific layouts. Pages also can have specific css and js added to the head or at the bottom of the page.
 
 You can create your own Lambdas and modify the Step Function for even more customization. For example, you could add a Lambda and a new Step Function path to create a catalog listing of your products that could be rebuilt and refreshed as products change.
 

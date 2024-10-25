@@ -12,7 +12,7 @@
     "aws-amplify": "^3.0.10",
     "aws-amplify-vue": "^2.1.1",
     "core-js": "^3.6.4",
-    "vue": "^2.6.11",
+    "vue": "^3.0.0",
     "vue-currency-filter": "^5.0.2",
     "vue-multiselect": "^2.1.6",
     "vue-router": "^3.1.6",
